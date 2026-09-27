@@ -1,4 +1,4 @@
-# Chrome 手动验收
+# Chrome、Edge、Firefox 手动验收
 
 ## 真实 API 自检
 
@@ -40,3 +40,13 @@
 ## 自动化
 
 `npm test` 使用 Vitest 与内存 Chrome API 模型。重点验证数据不丢失；并不模拟真实跨设备同步或真实 service worker 生命周期。
+
+## 0.3.0 跨浏览器补充
+
+- Chrome 134+：加载 `dist`，按上方 1–15 项验收，重点检查书签目录是否在账号书签下。
+- Edge 134+：加载同一个 `dist`，按上方 1–15 项验收；「在书签中查看」应打开 Edge 收藏夹。Edge 的账号同步需单独确认。
+- Firefox 142+：在 `about:debugging` 临时加载 `dist-firefox/manifest.json`，按上方 1–15 项验收；使用 Ctrl+Shift+O 查看「其他书签」中的 BetterTab。此临时加载不会替代 Mozilla 签名的正式 XPI。
+- 在三个浏览器中分别运行扩展设置中的自检并保存报告。Firefox 的书签 API 无法报告账号同步状态，须在浏览器设置中确认。
+- 跨浏览器只测试完整 JSON 备份的导出与导入；不同浏览器账号的书签不会自动互通。
+
+2026-09-27：Firefox 156 已接受 `web-ext run` 临时加载，Edge 已通过 `web-ext run --target chromium` 启动；两者尚未完成扩展内自检。Chrome 旧版 13 项自检通过的记录不能代表 0.3.0 的跨浏览器验收。
