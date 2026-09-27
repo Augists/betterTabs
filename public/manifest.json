@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "栖签 — 标签归档",
+  "version": "0.3.0",
+  "minimum_chrome_version": "134",
+  "description": "把标签整理进专用书签文件夹，通过浏览器书签同步跨设备访问。",
+  "icons": { "16": "icons/icon-16.png", "32": "icons/icon-32.png", "48": "icons/icon-48.png", "128": "icons/icon-128.png" },
+  "permissions": ["tabs", "bookmarks", "storage", "contextMenus", "tabGroups"],
+  "background": { "service_worker": "background.js", "type": "module" },
+  "action": { "default_title": "归档当前窗口到栖签", "default_icon": { "16": "icons/icon-16.png", "32": "icons/icon-32.png" } },
+  "options_page": "index.html#settings",
+  "omnibox": { "keyword": "bt" },
+  "commands": {
+    "archive-window": {
+      "suggested_key": { "default": "Alt+Shift+1" },
+      "description": "归档当前窗口"
+    },
+    "open-library": {
+      "suggested_key": { "default": "Alt+Shift+B" },
+      "description": "打开栖签"
+    }
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
+}

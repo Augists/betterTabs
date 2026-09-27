@@ -1,0 +1,9 @@
+node_modules/
+dist/
+dist-firefox/
+release/
+*.log
+.npm-cache/
+release/private/
+*.pem
+.pack-profile/
