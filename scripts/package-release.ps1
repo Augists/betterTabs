@@ -1,4 +1,4 @@
-param([string]$Version = '0.2.0')
+param([string]$Version = '0.3.0')
 
 $workspace = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
 $dist = (Resolve-Path -LiteralPath (Join-Path $workspace 'dist')).Path
@@ -22,3 +22,8 @@ if ($process.ExitCode -ne 0 -or -not (Test-Path -LiteralPath $chromeOutput)) {
 Move-Item -LiteralPath $chromeOutput -Destination $crx -Force
 Compress-Archive -Path (Join-Path $dist '*') -DestinationPath $zip -Force
 & (Join-Path $PSScriptRoot 'verify-release.ps1') -Version $Version
+$checksums = Join-Path $workspace 'release/SHA256SUMS.txt'
+$hash = (Get-FileHash -LiteralPath $crx -Algorithm SHA256).Hash.ToLower()
+$lines = @(Get-Content -LiteralPath $checksums | Where-Object { $_ -notmatch '  Qiqian-.*\.crx$' })
+$lines += "$hash  Qiqian-$Version.crx"
+Set-Content -LiteralPath $checksums -Value $lines -Encoding UTF8

@@ -94,3 +94,15 @@ describe('bookmarks portability and ordering',()=>{
     expect(normalizeSettings({design:'radix',theme:'unknown',excluded:55,popup:'yes'})).toMatchObject({theme:'light',excluded:'',popup:false});
   });
 });
+
+it('opens the native Edge favorites manager', async () => {
+  vi.stubGlobal('navigator', { userAgent: 'Mozilla/5.0 Edg/156.0' });
+  try {
+    const { api } = fixture();
+    const worker = registerBackground(api);
+    await worker.dispatch({ type: 'bookmarks' });
+    expect(api.tabs.create).toHaveBeenCalledWith({ url: 'edge://favorites/' });
+  } finally {
+    vi.unstubAllGlobals();
+  }
+});

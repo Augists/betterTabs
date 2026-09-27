@@ -96,7 +96,11 @@ export function registerBackground(chrome: typeof globalThis.chrome) {
         const root = await repo.ensureRoot();
         if (chrome.runtime.getURL("").startsWith("moz-extension:"))
           throw new Error("Firefox 请按 Ctrl+Shift+O 打开书签管理器，在“其他书签”中查看 BetterTab 文件夹。");
-        return chrome.tabs.create({ url: `chrome://bookmarks/?id=${root.id}` });
+        return chrome.tabs.create({
+          url: navigator.userAgent.includes("Edg/")
+            ? "edge://favorites/"
+            : `chrome://bookmarks/?id=${root.id}`,
+        });
       }
       case "clear-error":
         await chrome.storage.local.remove("lastError");

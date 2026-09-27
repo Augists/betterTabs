@@ -1,4 +1,4 @@
-param([string]$Version = '0.2.0')
+param([string]$Version = '0.3.0')
 
 Add-Type -AssemblyName System.IO.Compression
 $root = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
